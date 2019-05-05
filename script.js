@@ -31,6 +31,15 @@ function addMoreTrainingData(output) {
   console.log('retrain', currentRgbColor, output);
 }
 
+function optionAdded($el) {
+  let $p = $el.querySelector('p');
+  let tmp = $p.innerText;
+  $p.innerText = 'Agregado!';
+  setTimeout(() => {
+    $p.innerText = tmp;
+  }, 2000);
+}
+
 let $optionA = document.querySelector('#option-a');
 let $optionB = document.querySelector('#option-b');
 let $predicted = document.querySelector('#predicted');
@@ -39,7 +48,6 @@ let currentRgbColor = 0;
 document.querySelector('#color-picker').addEventListener('change', e => {
   currentRgbColor = getRgb(e.target.value);
   const result = brain.likely(currentRgbColor, network);
-  console.log(result)
   $optionA.style.background = e.target.value;
   $optionB.style.background = e.target.value;
   $predicted.style.background = e.target.value;
@@ -49,10 +57,12 @@ document.querySelector('#color-picker').addEventListener('change', e => {
 $optionA.addEventListener('click', e => {
   e.preventDefault();
   addMoreTrainingData({ white: 1 });
+  optionAdded($optionA);
 });
 $optionB.addEventListener('click', e => {
   e.preventDefault();
   addMoreTrainingData({ dark: 1 });
+  optionAdded($optionB);
 });
 $predicted.addEventListener('click', e => {
   e.preventDefault();
